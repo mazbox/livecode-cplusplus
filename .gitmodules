@@ -1,0 +1,3 @@
+[submodule "of64"]
+	path = of64
+	url = git://github.com/mazbox/of64.git
