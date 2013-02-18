@@ -1,5 +1,8 @@
 CC = llvm-g++
-LD_FLAGS = of64/libs/openFrameworksCompiled/lib/osx/openFrameworksDebug.a \
+
+OF_STATIC_LIB = of64/libs/openFrameworksCompiled/lib/osx/openFrameworks.a
+
+LD_FLAGS = $(OF_STATIC_LIB) \
 				-framework OpenGL -framework GLUT -framework Carbon -framework CoreAudio
 INCLUDES = -Iof64/libs/openFrameworks/ \
 		-Iof64/libs/openFrameworks/3d \
@@ -18,18 +21,21 @@ INCLUDES = -Iof64/libs/openFrameworks/ \
 		-Iof64/libs/poco/include
 		
 
-OF_STATIC_LIB = of64/libs/openFrameworksCompiled/lib/osx/openFrameworks.a
+
 PCH_FILE = of64/libs/openFrameworks/ofMain.h.gch
-all:
+
+all: $(OF_STATIC_LIB)
 	g++ main.cpp $(INCLUDES) $(LD_FLAGS) -o livecode
 
-
+$(OF_STATIC_LIB):
+	xcodebuild -configuration Release -project of64/libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj
+	
 $(PCH_FILE):
 	echo "Precompiling ofMain.h"
 	g++ of64/libs/openFrameworks/ofMain.h -c $(INCLUDES)
 
 
-live: $(PCH_FILE)	
+live: $(PCH_FILE) $(OF_STATIC_LIB)
 	g++ livecode.cpp -c -Iof64/libs/openFrameworks/
 	g++ -I. -dynamiclib -o livecode.dylib livecode.o \
 	$(OF_STATIC_LIB) \
@@ -37,12 +43,7 @@ live: $(PCH_FILE)
 	rm livecode.o	
 
 
-
-liveslow: $(PCH_FILE)	
-	g++ livecode.cpp -c -Iof64/libs/openFrameworks/
-	g++ -I. -dynamiclib -o livecode.dylib livecode.o \
-		$(OF_STATIC_LIB) \
-		-framework OpenGL -framework GLUT -framework Carbon -framework CoreAudio
-	rm livecode.o	
-
-
+clean:
+	rm $(OF_STATIC_LIB)
+	rm $(PCH_FILE)
+	rm livecode.dylib
