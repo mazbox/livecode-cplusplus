@@ -18,6 +18,7 @@ ofBaseApp *app = new ofBaseApp();
 void reload() {
 	// don't forget to clean up
 	if(livecodeLib!=NULL) {
+		app->exit();
 		delete app;
 		dlclose(livecodeLib);
 	}

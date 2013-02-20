@@ -17,7 +17,7 @@ public:
 	
 	void draw() {
 		for(int j = 0; j < 10; j++) {
-			ofSetColor(j*25, 100-j*10, 100-j*25, 150);
+			ofSetColor(j*25, 20-j*10, 100-j*25, 255);
 			
 			ofBeginShape();
 			ofVertex(ofGetWidth(), 0);
