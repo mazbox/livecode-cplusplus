@@ -1,5 +1,5 @@
 CC = llvm-g++
-
+LIVEFILE = livecode.cpp
 OF_STATIC_LIB = of64/libs/openFrameworksCompiled/lib/osx/openFrameworks.a
 
 LD_FLAGS = $(OF_STATIC_LIB) \
@@ -36,7 +36,7 @@ $(PCH_FILE):
 
 
 live: $(PCH_FILE) $(OF_STATIC_LIB)
-	g++ livecode.cpp -c -Iof64/libs/openFrameworks/
+	g++ $(LIVEFILE) -c -Iof64/libs/openFrameworks/ -o livecode.o
 	g++ -I. -dynamiclib -o livecode.dylib livecode.o \
 	$(OF_STATIC_LIB) \
 		-undefined suppress -flat_namespace

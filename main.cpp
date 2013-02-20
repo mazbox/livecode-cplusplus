@@ -11,6 +11,7 @@
 ofAppGlutWindow window;
 
 void *livecodeLib = NULL;
+string livefile = "default.cpp";
 
 ofBaseApp *app = new ofBaseApp();
 
@@ -44,9 +45,12 @@ void reload() {
 
 
 void recompileAndReload() {
-	printf("File is modified, reloading\n");    
     long t = ofGetSystemTime();
-	system("make live");
+    
+	// call our makefile
+	string cmd = "make live LIVEFILE=";
+	cmd += livefile;
+	system(cmd.c_str());
 	reload();
 	
 	printf("Reload took %ldms\n", ofGetSystemTime() - t);
@@ -56,7 +60,7 @@ void recompileAndReload() {
 long prevUpdateTime = 0;
 void checkAndUpdate() {
 	struct stat fileStat;
-    if(stat("livecode.cpp",&fileStat) < 0) {
+    if(stat(livefile.c_str(), &fileStat) < 0) {
 		printf("Couldn't stat file\n");
 		return;
 	} 
@@ -111,7 +115,12 @@ class forwarderApp: public ofBaseApp {
 
 int main(int argc, char** argv) {
 
+	// if there's an argument, 
+	 if(argc>1) {
 	 
+	 	livefile = argv[1];
+	 	printf("Using live file '%s'\n", argv[1]);
+	 } // otherwise using default
 	ofSetupOpenGL(&window, 1024,768, OF_WINDOW);			// <-------- setup the GL context
 
 	// this kicks off the running of my app

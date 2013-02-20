@@ -22,3 +22,10 @@ SETUP
 5. type "./livecode" to start the program - the first time it starts up takes a moment.
 6. edit the file livecode.cpp - the app will update every time you save
 
+
+USAGE
+=====
+If you want to edit a file other than livecode.cpp, make the name of it your first parameter of livecode, e.g.
+
+./livecode ../files/some.cpp
+
