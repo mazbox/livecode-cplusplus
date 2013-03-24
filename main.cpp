@@ -66,19 +66,23 @@ void checkAndUpdate() {
 	} 
 	long currUpdateTime = fileStat.st_mtime;
 	if(currUpdateTime!=prevUpdateTime) {
+		printf("Compile reload\n");
 		recompileAndReload();
 	}
 	prevUpdateTime = currUpdateTime;
 }
 
-long lastTimeChecked = 0;
+float lastTimeChecked = 0;
 
 void idle(void) {
-	long t = ofGetSystemTime();
+	//long t = ofGetSystemTime();
+	float f = ofGetElapsedTimef();
+
 	// check update time on the file
-	if(t>lastTimeChecked+100) { // check every 300ms
+
+	if(f>lastTimeChecked+0.1) { // check every 300ms
 		checkAndUpdate();
-		lastTimeChecked = t;
+		lastTimeChecked = f;
 	}
 }
 
