@@ -18,6 +18,7 @@ SETUP
 	- git clone https://github.com/mazbox/livecode-cplusplus.git
 2. cd into the folder
 4. type "make" to build everything
+5. type ". ./setenv.sh" (note it's dot space dot slash setenv.sh)
 5. type "./livecode" to start the program - the first time it starts up takes a moment.
 6. edit the file livecode.cpp - the app will update every time you save
 
